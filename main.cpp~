@@ -1,0 +1,28 @@
+#include <iostream>
+
+using namespace std;
+
+int main(){
+  char in[20]; 
+
+  cout << "Heap. Commands: create, delete, display" << endl; 
+  while(true){
+    cout << "enter a command: " << endl;
+    cin >> in;
+    if(strcmp(in, "create")==0){
+
+    }
+    else if(strcmp(in, "delete")==0){
+
+    }
+    else if(strcmp(in, "display") == 0){
+
+    }
+    else if(strcmp(in, "quit")==0){
+      return 0; 
+    }
+    else{
+      cout << "unknown input" << endl;
+    }
+  }
+}
