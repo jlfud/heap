@@ -2,9 +2,9 @@
 #include <cstring>
 
 using namespace std;
-void create(int* arr); 
-void buildHeap(int* arr, int i); 
-void display(int* arr); 
+void create(int* arr, int size); 
+void buildHeap(int* arr, int i, int size); 
+void display(int* arr, int size); 
 int main(){
   
   char in[100]; 
@@ -21,6 +21,7 @@ int main(){
       cout << "file (f) or input (i)?" << endl;
       cin >> in;
       if(strcmp(in, "f")==0){
+	count = 0;
 	cout << "file path: " << endl; 
 	cin >> in;
 	//input by file
@@ -38,7 +39,7 @@ int main(){
 	    count++;
 	  }
 	}
-	create(arr);
+	create(arr, count);
       }
     }
     
@@ -46,7 +47,7 @@ int main(){
       //delete 
     }
     else if(strcmp(in, "display") == 0){
-      display(arr);
+      display(arr, count);
     }
     else if(strcmp(in, "quit")==0){
       return 0; 
@@ -57,15 +58,13 @@ int main(){
   }
 }
 
-void create(int* arr){
-  int n = sizeof(arr)/sizeof(arr[0]);
-  int start = (n/2)-1;
+void create(int* arr, int size){
+  int start = (size/2)-1;
   for(int i = start; i >= 0; i--){
-    buildHeap(arr, i); 
+    buildHeap(arr, i, size); 
   }
 }
-void buildHeap(int* arr, int i){ 
-  int size = sizeof(arr)/sizeof(arr[0]);
+void buildHeap(int* arr, int i, int size){ 
   int top = i;
   int left = 2*i +1;
   int right = 2*i +2;
@@ -76,14 +75,14 @@ void buildHeap(int* arr, int i){
     top = right; 
   }
   if(top != i){
+    //swap(arr[i], arr[top]);
     int placeholder = arr[i];
     arr[i] = arr[top];
     arr[top] = placeholder;
-    buildHeap(arr, top); 
+    buildHeap(arr, top, size); 
   }
 }
-void display(int* arr){
-  int size = sizeof(arr)/sizeof(arr[0]);
+void display(int* arr, int size){
   for(int i = 0; i < size; i++){
     cout << arr[i] << " "; 
   }
