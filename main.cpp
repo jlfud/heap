@@ -3,7 +3,7 @@
 
 using namespace std;
 struct node{
-  int value;
+  int value = -1;
   int parent = -1;
 };
 void create(node** arr, int size); 
@@ -72,21 +72,41 @@ void create(node** arr, int size){
   }
 }
 void buildHeap(node** arr, int i, int size){ 
-  int top = i;
-  int left = 2*i +1; 
-  int right = 2*i +2;
-  if((left < size)&&(arr[left]->value > arr[top]->value)){
-    top = left;
+  int top = i; //the node at the top
+  int left = 2*i +1;  //the node to the left
+  int right = 2*i +2; //the node to the right
+  //if the left node is in the the array (less than size) and it is larger than parent
+  //if((left < size)&&(arr[left]->value > arr[top]->value)){
+  //arr[left]->parent = arr[top]->value;
+    //we make lef the new parent
+    //top = left;
+  //}
+  //same thing but with right node
+  //if((right < size)&&(arr[right]->value > arr[top]->value)){
+  // top = right; 
+  //}
+  if(left < size){
+    if(arr[left]->value > arr[top]->value){
+      top = left; 
+    }
+    else{
+      arr[left]->parent = arr[top]->value; 
+    }
   }
-  if((right < size)&&(arr[right]->value > arr[top]->value)){
-    top = right; 
+  if(right < size){
+    if(arr[right]->value > arr[top]->value){
+      right = top; 
+    }
+    else{
+      arr[right]->parent = arr[top]->value;
+    }
   }
+  //if something has been swapped, we swap the two
   if(top != i){
-    //swap(arr[i], arr[top]);
-    arr[i]->parent = arr[top]->value;
     node* placeholder = arr[i];
     arr[i] = arr[top];
     arr[top] = placeholder;
+    //if we swap, we need to keep on building to maintain
     buildHeap(arr, top, size); 
   }
 }
