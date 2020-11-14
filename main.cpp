@@ -2,17 +2,22 @@
 #include <cstring>
 
 using namespace std;
-void create(int* arr, int size); 
-void buildHeap(int* arr, int i, int size); 
-void display(int* arr, int size); 
+struct node{
+  int value;
+  int parent = -1;
+};
+void create(node** arr, int size); 
+void buildHeap(node** arr, int i, int size); 
+void display(node** arr, int size); 
+
 int main(){
   
   char in[100]; 
-  int* arr = new int[100]; 
+  node** arr = new node*[100]; 
   int num;
   int count; 
   cout << "Heap. Commands: create, delete, display, quit" << endl; 
-
+  cout << "values are printed with its parent in parenthases" << endl;
   while(true){
     cout << "enter a command: " << endl;
     cin >> in;
@@ -35,7 +40,9 @@ int main(){
 	    break; 
 	  }
 	  else{
-	    arr[count] = num;
+	    node* no = new node();
+	    no->value = num;
+	    arr[count] = no;
 	    count++;
 	  }
 	}
@@ -58,33 +65,36 @@ int main(){
   }
 }
 
-void create(int* arr, int size){
-  int start = (size/2)-1;
+void create(node** arr, int size){
+  int start = (size/2) - 1;
   for(int i = start; i >= 0; i--){
     buildHeap(arr, i, size); 
   }
 }
-void buildHeap(int* arr, int i, int size){ 
+void buildHeap(node** arr, int i, int size){ 
   int top = i;
-  int left = 2*i +1;
+  int left = 2*i +1; 
   int right = 2*i +2;
-  if((left < size)&&(arr[left] > arr[top])){
-    top = left; 
+  if((left < size)&&(arr[left]->value > arr[top]->value)){
+    top = left;
   }
-  if((right < size)&&(arr[right] > arr[top])){
+  if((right < size)&&(arr[right]->value > arr[top]->value)){
     top = right; 
   }
   if(top != i){
     //swap(arr[i], arr[top]);
-    int placeholder = arr[i];
+    arr[i]->parent = arr[top]->value;
+    node* placeholder = arr[i];
     arr[i] = arr[top];
     arr[top] = placeholder;
     buildHeap(arr, top, size); 
   }
 }
-void display(int* arr, int size){
+void display(node** arr, int size){
+  int* top = new int[size]; //array of ints int the line above
   for(int i = 0; i < size; i++){
-    cout << arr[i] << " "; 
+      cout << arr[i]->value << "(" << arr[i]->parent <<") " << endl; 
   }
   cout << endl;
+  delete top;
 }
