@@ -1,9 +1,9 @@
 #include <iostream>
 #include <cstring>
-
+#include <math.h>
 using namespace std;
 struct node{
-  int value = -1;
+  int value;
   int parent = -1;
 };
 void create(node** arr, int size); 
@@ -51,7 +51,7 @@ int main(){
     }
     
     else if(strcmp(in, "delete")==0){
-      //delete 
+      //delete
     }
     else if(strcmp(in, "display") == 0){
       display(arr, count);
@@ -75,31 +75,11 @@ void buildHeap(node** arr, int i, int size){
   int top = i; //the node at the top
   int left = 2*i +1;  //the node to the left
   int right = 2*i +2; //the node to the right
-  //if the left node is in the the array (less than size) and it is larger than parent
-  //if((left < size)&&(arr[left]->value > arr[top]->value)){
-  //arr[left]->parent = arr[top]->value;
-    //we make lef the new parent
-    //top = left;
-  //}
-  //same thing but with right node
-  //if((right < size)&&(arr[right]->value > arr[top]->value)){
-  // top = right; 
-  //}
-  if(left < size){
-    if(arr[left]->value > arr[top]->value){
-      top = left; 
-    }
-    else{
-      arr[left]->parent = arr[top]->value; 
-    }
+  if((left < size)&&(arr[left]->value > arr[top]->value)){
+      top = left;
   }
-  if(right < size){
-    if(arr[right]->value > arr[top]->value){
-      right = top; 
-    }
-    else{
-      arr[right]->parent = arr[top]->value;
-    }
+  if((right < size) && (arr[right]->value > arr[top]->value)){
+      top = right; 
   }
   //if something has been swapped, we swap the two
   if(top != i){
@@ -111,10 +91,18 @@ void buildHeap(node** arr, int i, int size){
   }
 }
 void display(node** arr, int size){
-  int* top = new int[size]; //array of ints int the line above
+  int top[size];
   for(int i = 0; i < size; i++){
-      cout << arr[i]->value << "(" << arr[i]->parent <<") " << endl; 
+    top[i] = -1; 
+  }
+  for(int i = 0; i < size; i++){
+    if(arr[(int)floor((i)/2)]->value != arr[(int)floor((i+1)/2)]->value){
+      cout << arr[i]->value << "(" << arr[(int)floor(i/2)]->value << ") ";
+      cout << endl;
+    }
+    else{
+      cout << arr[i]->value << " (" << arr[(int)floor(i/2)]->value << ") ";
+    }
   }
   cout << endl;
-  delete top;
 }
