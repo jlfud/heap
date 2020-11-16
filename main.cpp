@@ -99,6 +99,7 @@ void create(int* arr, int size){
     buildHeap(arr, i, size); 
   }
 }
+//idea for swapping values came from geeksforgeeks
 void buildHeap(int* arr, int i, int size){ 
   int top = i; //the node at the top
   int left = 2*i +1;  //the node to the left
