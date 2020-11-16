@@ -2,18 +2,15 @@
 #include <cstring>
 #include <math.h>
 using namespace std;
-struct node{
-  int value;
-  int parent = -1;
-};
-void create(node** arr, int size); 
-void buildHeap(node** arr, int i, int size); 
-void display(node** arr, int size); 
+
+void create(int* arr, int size); 
+void buildHeap(int* arr, int i, int size); 
+void display(int* arr, int size); 
 
 int main(){
   
   char in[100]; 
-  node** arr = new node*[100]; 
+  int* arr = new int[100]; 
   int num;
   int count; 
   cout << "Heap. Commands: create, delete, display, quit" << endl; 
@@ -40,9 +37,7 @@ int main(){
 	    break; 
 	  }
 	  else{
-	    node* no = new node();
-	    no->value = num;
-	    arr[count] = no;
+	    arr[count] = num;
 	    count++;
 	  }
 	}
@@ -51,7 +46,17 @@ int main(){
     }
     
     else if(strcmp(in, "delete")==0){
-      //delete
+      cout << "number to delete: " << endl;
+      cin >> num;
+      for(int i = 0; i < 100; i++){
+	if(arr[i]==num){
+	  arr[i] = arr[count - 1];
+	  //arr[count - 1] = NULL;
+	  count -= 1;
+	  create(arr, count);
+	  break; 
+	}
+      }
     }
     else if(strcmp(in, "display") == 0){
       display(arr, count);
@@ -65,43 +70,44 @@ int main(){
   }
 }
 
-void create(node** arr, int size){
+void create(int* arr, int size){
   int start = (size/2) - 1;
   for(int i = start; i >= 0; i--){
     buildHeap(arr, i, size); 
   }
 }
-void buildHeap(node** arr, int i, int size){ 
+void buildHeap(int* arr, int i, int size){ 
   int top = i; //the node at the top
   int left = 2*i +1;  //the node to the left
   int right = 2*i +2; //the node to the right
-  if((left < size)&&(arr[left]->value > arr[top]->value)){
+  if((left < size)&&(arr[left] > arr[top])){
       top = left;
   }
-  if((right < size) && (arr[right]->value > arr[top]->value)){
+  if((right < size) && (arr[right] > arr[top])){
       top = right; 
   }
   //if something has been swapped, we swap the two
   if(top != i){
-    node* placeholder = arr[i];
+    int placeholder = arr[i];
     arr[i] = arr[top];
     arr[top] = placeholder;
     //if we swap, we need to keep on building to maintain
     buildHeap(arr, top, size); 
   }
 }
-void display(node** arr, int size){
-  int top[size];
+void display(int* arr, int size){
+  int count = 2; 
   for(int i = 0; i < size; i++){
-    top[i] = -1; 
-  }
-  for(int i = 0; i < size; i++){
-    if(arr[(int)floor((i)/2)]->value != arr[(int)floor((i+1)/2)]->value){
-      cout << arr[i]->value << "(" << arr[(int)floor(i/2)]->value << ") ";
+    if((i+2)==count){
+      cout << arr[i];
+      if(i != 0){
+	cout << "(" << arr[(int)floor((i-1)/2)] << ") ";
+      }
       cout << endl;
+      count *= 2; 
     }
     else{
-      cout << arr[i]->value << " (" << arr[(int)floor(i/2)]->value << ") ";
+      cout << arr[i] << " (" << arr[(int)floor((i-1)/2)] << ") ";
     }
   }
   cout << endl;
